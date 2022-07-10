@@ -131,22 +131,6 @@ const NewBlog: FC<Props> = ({
   lastestPublications,
   hideCard = false
 }) => {
-  // const Editor = new EditorJS({
-  //     // Other configuration properties
-
-  //     /**
-  //      * onReady callback
-  //      */
-  //     onReady: () => {console.log('Editor.js is ready to work!')},
-
-  //     /**
-  //      * onChange callback
-  //      */
-  //     onChange: (api, event) => {
-  //       console.log('Now I know that Editor\'s content changed!', event)
-  //     }
-  //  });
-
   const [editorData, setEditorData] = useState<any>()
 
   const [preview, setPreview] = useState<boolean>(false)

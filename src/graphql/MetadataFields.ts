@@ -12,6 +12,8 @@ export const MetadataFields = gql`
       }
     }
     attributes {
+      displayType
+      traitType
       value
     }
   }

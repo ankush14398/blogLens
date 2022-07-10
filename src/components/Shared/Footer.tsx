@@ -1,5 +1,4 @@
 import AppContext from '@components/utils/AppContext'
-import Link from 'next/link'
 import { FC, useContext } from 'react'
 
 const Footer: FC = () => {
@@ -11,7 +10,7 @@ const Footer: FC = () => {
         staffMode ? 'top-28' : 'top-20'
       }`}
     >
-      <span className="font-bold text-gray-500 dark:text-gray-300">
+      {/* <span className="font-bold text-gray-500 dark:text-gray-300">
         © Lenster
       </span>
       <Link href="/about" prefetch={false}>
@@ -64,7 +63,7 @@ const Footer: FC = () => {
         rel="noreferrer noopener"
       >
         GitLab
-      </a>
+      </a>*/}
       <a
         className="pr-3 hover:font-bold"
         href="https://vercel.com/?utm_source=Lenster&utm_campaign=oss"

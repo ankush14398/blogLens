@@ -1,7 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import SinglePost from '@components/Post/SinglePost'
 import PostsShimmer from '@components/Shared/Shimmer/PostsShimmer'
-import { Card } from '@components/UI/Card'
 import { EmptyState } from '@components/UI/EmptyState'
 import { ErrorMessage } from '@components/UI/ErrorMessage'
 import { Spinner } from '@components/UI/Spinner'
@@ -14,6 +13,7 @@ import { CollectionIcon } from '@heroicons/react/outline'
 import consoleLog from '@lib/consoleLog'
 import React, { FC, useState } from 'react'
 import { useInView } from 'react-cool-inview'
+import { BLOGLENS } from 'src/constants'
 
 const EXPLORE_FEED_QUERY = gql`
   query ExploreFeed($request: ExplorePublicationRequest!) {
@@ -52,7 +52,8 @@ const Feed: FC<Props> = ({ feedType = 'TOP_COMMENTED' }) => {
       request: {
         sortCriteria: feedType,
         limit: 10,
-        noRandomize: feedType === 'LATEST'
+        noRandomize: feedType === 'LATEST',
+        sources: [BLOGLENS]
       }
     },
     onCompleted(data) {
@@ -101,11 +102,16 @@ const Feed: FC<Props> = ({ feedType = 'TOP_COMMENTED' }) => {
       <ErrorMessage title="Failed to load explore feed" error={error} />
       {!error && !loading && data?.explorePublications?.items?.length !== 0 && (
         <>
-          <Card className="divide-y-[1px] dark:divide-gray-700/80">
+          <div className="gap-2 grid grid-cols-1 w-full">
             {publications?.map((post: LensterPost, index: number) => (
-              <SinglePost key={`${post?.id}_${index}`} post={post} />
+              <div
+                key={`${post?.id}_${index}`}
+                className="border-2 border-black rounded-lg  bg-white	"
+              >
+                <SinglePost post={post} />
+              </div>
             ))}
-          </Card>
+          </div>
           {pageInfo?.next && publications.length !== pageInfo?.totalCount && (
             <span ref={observe} className="flex justify-center p-5">
               <Spinner size="sm" />

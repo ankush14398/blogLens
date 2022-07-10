@@ -1,7 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import AppContext from '@components/utils/AppContext'
 import { Menu, Transition } from '@headlessui/react'
-import { LightningBoltIcon } from '@heroicons/react/outline'
 import trackEvent from '@lib/trackEvent'
 import { FC, Fragment, useContext, useEffect, useState } from 'react'
 
@@ -50,7 +49,8 @@ const Notification: FC = () => {
                 setShowBadge(false)
               }}
             >
-              <LightningBoltIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+              🔔&nbsp;<span className="hidden sm:block">Notifications</span>
+              {/* <LightningBoltIcon className="w-5 h-5 sm:w-6 sm:h-6" /> */}
               {showBadge && <div className="w-2 h-2 bg-red-500 rounded-full" />}
             </button>
           </Menu.Button>

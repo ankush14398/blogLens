@@ -32,6 +32,7 @@ import uploadToIPFS from '@lib/uploadToIPFS'
 import React, { ChangeEvent, FC, useContext, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import {
+  BLOGLENS,
   CHAIN_ID,
   CONNECT_WALLET,
   ERROR_MESSAGE,
@@ -281,7 +282,7 @@ const Profile: FC<Props> = ({ profile }) => {
         ],
         version: '1.0.0',
         metadata_id: uuidv4(),
-        appId: 'Lenster'
+        appId: BLOGLENS
       }).finally(() => setIsUploading(false))
 
       createSetProfileMetadataTypedData({

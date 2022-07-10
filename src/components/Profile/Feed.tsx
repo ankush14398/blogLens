@@ -14,6 +14,7 @@ import { CollectionIcon } from '@heroicons/react/outline'
 import consoleLog from '@lib/consoleLog'
 import React, { FC, useState } from 'react'
 import { useInView } from 'react-cool-inview'
+import { BLOGLENS } from 'src/constants'
 
 const PROFILE_FEED_QUERY = gql`
   query ProfileFeed($request: PublicationsQueryRequest!) {
@@ -50,7 +51,12 @@ const Feed: FC<Props> = ({ profile, type }) => {
   const [pageInfo, setPageInfo] = useState<PaginatedResultInfo>()
   const { data, loading, error, fetchMore } = useQuery(PROFILE_FEED_QUERY, {
     variables: {
-      request: { publicationTypes: type, profileId: profile?.id, limit: 10 }
+      request: {
+        publicationTypes: type,
+        profileId: profile?.id,
+        limit: 10,
+        sources: [BLOGLENS]
+      }
     },
     skip: !profile?.id,
     fetchPolicy: 'no-cache',

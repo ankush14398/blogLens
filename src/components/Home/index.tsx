@@ -1,5 +1,4 @@
 import { GridItemEight, GridItemFour, GridLayout } from '@components/GridLayout'
-import Announcement from '@components/Home/Announcement'
 import Footer from '@components/Shared/Footer'
 import PostsShimmer from '@components/Shared/Shimmer/PostsShimmer'
 import AppContext from '@components/utils/AppContext'
@@ -33,7 +32,7 @@ const Home: NextPage = () => {
           {currentUser ? <HomeFeed /> : <ExploreFeed />}
         </GridItemEight>
         <GridItemFour>
-          <Announcement />
+          {/* <Announcement /> */}
           {currentUser && (
             <>
               <SetDefaultProfile />

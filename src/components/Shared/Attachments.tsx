@@ -44,19 +44,14 @@ const Attachments: FC<Props> = ({
   const slicedAttachments = attachments?.slice(0, 4)
 
   return slicedAttachments?.length !== 0 ? (
-    <div
-      className={clsx(
-        getGridRows(slicedAttachments?.length),
-        'grid grid-flow-col gap-2 pt-3'
-      )}
-    >
+    <div className="w-full">
       {slicedAttachments?.map((attachment: LensterAttachment & MediaSet) => (
         <div
           className={clsx(
             (isNew ? attachment.type : attachment.original.mimeType) ===
               'video/mp4'
               ? ''
-              : 'aspect-w-16 aspect-h-12'
+              : ''
           )}
           key={isNew ? attachment.item : getIPFSLink(attachment.original.url)}
         >
@@ -69,7 +64,7 @@ const Attachments: FC<Props> = ({
             />
           ) : (
             <img
-              className="object-cover bg-gray-100 rounded-lg border dark:bg-gray-800 dark:border-gray-700/80"
+              className="object-contain max-h-[300px] w-full bg-gray-100 rounded-lg border dark:bg-gray-800 dark:border-gray-700/80"
               loading="lazy"
               src={
                 isNew

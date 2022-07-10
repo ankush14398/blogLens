@@ -104,14 +104,8 @@ const Create: FC<Props> = ({ isModal = false }) => {
       )}
       {isModal && (
         <div className="mb-2 space-y-4">
-          <img
-            className="w-10 h-10"
-            height={40}
-            width={40}
-            src="/logo.svg"
-            alt="Logo"
-          />
-          <div className="text-xl font-bold">Signup to Lenster</div>
+          🍀&nbsp;
+          <div className="text-xl font-bold">Signup to Lensblog</div>
         </div>
       )}
       <Input

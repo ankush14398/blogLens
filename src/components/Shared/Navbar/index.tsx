@@ -1,7 +1,6 @@
 import AppContext from '@components/utils/AppContext'
 import { Disclosure } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import hasPrideLogo from '@lib/hasPrideLogo'
 import isStaff from '@lib/isStaff'
 import clsx from 'clsx'
 import dynamic from 'next/dynamic'
@@ -10,7 +9,6 @@ import { useRouter } from 'next/router'
 import { FC, useContext } from 'react'
 
 import MenuItems from './MenuItems'
-import MoreNavItems from './MoreNavItems'
 import Search from './Search'
 
 const StaffBar = dynamic(() => import('./StaffBar'))
@@ -53,7 +51,7 @@ const Navbar: FC = () => {
 
     return (
       <>
-        <NavItem url="/" name="Home" current={pathname == '/'} />
+        {/* <NavItem url="/" name="Home" current={pathname == '/'} />
         <NavItem
           url="/explore"
           name="Explore"
@@ -64,7 +62,7 @@ const Navbar: FC = () => {
           name="Communities"
           current={pathname == '/communities'}
         />
-        <MoreNavItems />
+        <MoreNavItems /> */}
       </>
     )
   }
@@ -72,7 +70,7 @@ const Navbar: FC = () => {
   return (
     <Disclosure
       as="nav"
-      className="sticky top-0 z-10 w-full bg-white border-b dark:bg-gray-900 dark:border-b-gray-700/80"
+      className="sticky top-0 z-10 w-full  bg-white border-b-2 border-b-black dark:bg-gray-900 dark:border-b-gray-700/80"
     >
       {({ open }) => (
         <>
@@ -90,18 +88,9 @@ const Navbar: FC = () => {
                 </Disclosure.Button>
                 <Link href="/" prefetch={false}>
                   <a href="/">
-                    <div className="text-3xl font-black">
-                      <img
-                        className="w-8 h-8"
-                        height={32}
-                        width={32}
-                        src={
-                          currentUser && hasPrideLogo(currentUser)
-                            ? '/pride.svg'
-                            : '/logo.svg'
-                        }
-                        alt="Logo"
-                      />
+                    <div className="text-xl flex items-center font-black">
+                      🍀&nbsp;{' '}
+                      {<span className="hidden sm:block">lensblog</span>}
                     </div>
                   </a>
                 </Link>

@@ -10,12 +10,26 @@ import { ErrorMessage } from '@components/UI/ErrorMessage'
 import { MentionTextArea } from '@components/UI/MentionTextArea'
 import { Spinner } from '@components/UI/Spinner'
 import AppContext from '@components/utils/AppContext'
+// @ts-ignore
+import Checklist from '@editorjs/checklist'
+// @ts-ignore
+import Code from '@editorjs/code'
+import Header from '@editorjs/header'
+// @ts-ignore
+import Link from '@editorjs/link'
+// @ts-ignore
+import List from '@editorjs/list'
+// @ts-ignore
+import Quote from '@editorjs/quote'
+// @ts-ignore
+import Table from '@editorjs/table'
 import { LensterAttachment } from '@generated/lenstertypes'
 import { CreatePostBroadcastItemResult, EnabledModule } from '@generated/types'
 import { IGif } from '@giphy/js-types'
 import { BROADCAST_MUTATION } from '@gql/BroadcastMutation'
 import { PencilAltIcon } from '@heroicons/react/outline'
 import consoleLog from '@lib/consoleLog'
+// import EditorJS from '@editorjs/editorjs';
 import {
   defaultFeeData,
   defaultModuleData,
@@ -47,6 +61,10 @@ import {
   useSignTypedData
 } from 'wagmi'
 
+const Editor = dynamic(() => import('@stfy/react-editor.js'), {
+  ssr: false,
+  loading: () => <div className="mb-1 w-5 h-5 rounded-lg shimmer" />
+})
 const Attachment = dynamic(() => import('../../Shared/Attachment'), {
   loading: () => <div className="mb-1 w-5 h-5 rounded-lg shimmer" />
 })
@@ -105,9 +123,32 @@ export const CREATE_POST_TYPED_DATA_MUTATION = gql`
 interface Props {
   setShowModal?: Dispatch<boolean>
   hideCard?: boolean
+  lastestPublications?: string
 }
 
-const NewPost: FC<Props> = ({ setShowModal, hideCard = false }) => {
+const NewBlog: FC<Props> = ({
+  setShowModal,
+  lastestPublications,
+  hideCard = false
+}) => {
+  // const Editor = new EditorJS({
+  //     // Other configuration properties
+
+  //     /**
+  //      * onReady callback
+  //      */
+  //     onReady: () => {console.log('Editor.js is ready to work!')},
+
+  //     /**
+  //      * onChange callback
+  //      */
+  //     onChange: (api, event) => {
+  //       console.log('Now I know that Editor\'s content changed!', event)
+  //     }
+  //  });
+
+  const [editorData, setEditorData] = useState<any>()
+
   const [preview, setPreview] = useState<boolean>(false)
   const [postContent, setPostContent] = useState<string>('')
   const [postContentError, setPostContentError] = useState<string>('')
@@ -231,11 +272,14 @@ const NewPost: FC<Props> = ({ setShowModal, hideCard = false }) => {
       setPostContentError('')
       setIsUploading(true)
       // TODO: Add animated_url support
+      const { path: postPath } = await uploadToIPFS(editorData)
       const { path } = await uploadToIPFS({
         version: '1.0.0',
         metadata_id: uuidv4(),
-        description: trimify(postContent),
-        content: trimify(postContent),
+        description: trimify(`${postContent} -
+        http://localhost:4783/blog/${postPath}`),
+        content: trimify(`${postContent} -
+        http://localhost:4783/blog/${postPath}`),
         external_url: null,
         image: attachments.length > 0 ? attachments[0]?.item : null,
         imageMimeType: attachments.length > 0 ? attachments[0]?.type : null,
@@ -245,6 +289,11 @@ const NewPost: FC<Props> = ({ setShowModal, hideCard = false }) => {
             traitType: 'string',
             key: 'type',
             value: 'post'
+          },
+          {
+            traitType: 'string',
+            key: 'title',
+            value: postContent
           }
         ],
         media: attachments,
@@ -299,9 +348,35 @@ const NewPost: FC<Props> = ({ setShowModal, hideCard = false }) => {
               setValue={setPostContent}
               error={postContentError}
               setError={setPostContentError}
-              placeholder="What's happening?"
+              placeholder="What's your story about!"
             />
           )}
+          <div>
+            <div className="rounded-2xl border border-gray-600">
+              <Editor
+                holder="editorjs-container"
+                onChange={() => console.log('Something is changing!!')}
+                onData={(data) => {
+                  console.log(data)
+                  setEditorData(data)
+                }}
+                tools={{
+                  //  "header":Header,
+                  //  "quote":Quote,
+                  header: Header,
+                  quote: Quote,
+                  // "image":SimpleImage,
+                  list: List,
+                  code: Code,
+                  link: Link,
+                  checklist: Checklist,
+                  table: Table
+                }}
+                // readOnly={true}
+              />
+              <div id="editorjs-container"></div>
+            </div>
+          </div>
           <div className="block items-center sm:flex">
             <div className="flex items-center space-x-4">
               <Attachment
@@ -382,4 +457,4 @@ const NewPost: FC<Props> = ({ setShowModal, hideCard = false }) => {
   )
 }
 
-export default NewPost
+export default NewBlog

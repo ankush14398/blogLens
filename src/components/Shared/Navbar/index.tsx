@@ -51,13 +51,13 @@ const Navbar: FC = () => {
 
     return (
       <>
-        {/* <NavItem url="/" name="Home" current={pathname == '/'} />
+        <NavItem url="/" name="Home" current={pathname == '/'} />
         <NavItem
           url="/explore"
           name="Explore"
           current={pathname == '/explore'}
         />
-        <NavItem
+        {/* <NavItem
           url="/communities"
           name="Communities"
           current={pathname == '/communities'}
@@ -113,9 +113,9 @@ const Navbar: FC = () => {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="flex flex-col p-3 space-y-2">
-              <div className="mb-2">
+              {/* <div className="mb-2">
                 <Search hideDrodown />
-              </div>
+              </div> */}
               <NavItems />
             </div>
           </Disclosure.Panel>

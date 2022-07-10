@@ -22,7 +22,7 @@ export async function middleware(req: NextRequest) {
     if (data?.success) {
       const title = `${
         publication?.__typename === 'Post' ? 'Post' : 'Comment'
-      } by @${profile.handle} • Lenster`
+      } by @${profile.handle} • Bloglens`
       const description = publication.metadata?.content ?? ''
       const image = profile
         ? `https://ik.imagekit.io/lensterimg/tr:n-avatar/${getIPFSLink(

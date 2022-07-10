@@ -327,9 +327,9 @@ const NewBlog: FC<Props> = ({
         version: '1.0.0',
         metadata_id: uuidv4(),
         description: trimify(`${postContent} -
-        http://localhost:4783/blog/${postPath}`),
+        https://bloglens.vercel.app/blog/${postPath}`),
         content: trimify(`${postContent} -
-        http://localhost:4783/blog/${postPath}`),
+        https://bloglens.vercel.app/blog/${postPath}`),
         external_url: null,
         image: attachments.length > 0 ? attachments[0]?.item : null,
         imageMimeType: attachments.length > 0 ? attachments[0]?.type : null,

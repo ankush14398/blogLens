@@ -1,6 +1,5 @@
 const withPWA = require('next-pwa')
 const runtimeCaching = require('next-pwa/cache')
-const { withSentryConfig } = require('@sentry/nextjs')
 
 const moduleExports = withPWA({
   pwa: {
@@ -12,8 +11,4 @@ const moduleExports = withPWA({
   poweredByHeader: false
 })
 
-const sentryWebpackPluginOptions = {
-  silent: true
-}
-
-module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions)
+module.exports = moduleExports

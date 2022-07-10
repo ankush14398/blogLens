@@ -1,34 +1,19 @@
-import { Modal } from '@components/UI/Modal'
-import { PencilAltIcon } from '@heroicons/react/outline'
-import trackEvent from '@lib/trackEvent'
-import { FC, useState } from 'react'
-
-import NewPost from '..'
+import { useRouter } from 'next/router'
+import { FC } from 'react'
 
 const NewPostModal: FC = () => {
-  const [showModal, setShowModal] = useState<boolean>(false)
-
+  const router = useRouter()
   return (
     <>
       <button
         type="button"
         className="flex items-start"
         onClick={() => {
-          trackEvent('new post modal')
-          setShowModal(!showModal)
+          router.push(`/newBlog`)
         }}
       >
-        <PencilAltIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+        ✍️ &nbsp;<span className="hidden sm:block">Write</span>
       </button>
-      <Modal
-        title="New Post"
-        icon={<PencilAltIcon className="w-5 h-5 text-brand" />}
-        size="md"
-        show={showModal}
-        onClose={() => setShowModal(!showModal)}
-      >
-        <NewPost setShowModal={setShowModal} hideCard />
-      </Modal>
     </>
   )
 }

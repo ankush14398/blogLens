@@ -29,32 +29,38 @@ const SinglePost: FC<Props> = ({
     <div className="p-5">
       <PostType post={post} hideType={hideType} showThread={showThread} />
       <div>
-        <div className="flex justify-between pb-4 space-x-1.5">
-          <UserProfile
-            profile={
-              postType === 'community' && !!post?.collectedBy?.defaultProfile
-                ? post?.collectedBy?.defaultProfile
-                : post?.__typename === 'Mirror'
-                ? post?.mirrorOf?.profile
-                : post?.profile
-            }
-          />
-          <Link href={`/posts/${post?.id ?? post?.pubId}`} prefetch={false}>
-            <a
-              href={`/posts/${post?.id ?? post?.pubId}`}
-              className="text-sm text-gray-500"
-            >
-              {dayjs(new Date(post?.createdAt)).fromNow()}
-            </a>
-          </Link>
-        </div>
-        <div className="ml-[53px]">
+        <div>
           {post?.hidden ? (
             <HiddenPost type={post?.__typename} />
           ) : (
             <>
               <PostBody post={post} />
-              <PostActions post={post} />
+              <div className="flex justify-between space-x-1.5">
+                <UserProfile
+                  profile={
+                    postType === 'community' &&
+                    !!post?.collectedBy?.defaultProfile
+                      ? post?.collectedBy?.defaultProfile
+                      : post?.__typename === 'Mirror'
+                      ? post?.mirrorOf?.profile
+                      : post?.profile
+                  }
+                />
+                <div className="flex flex-col justify-end items-end">
+                  <Link
+                    href={`/posts/${post?.id ?? post?.pubId}`}
+                    prefetch={false}
+                  >
+                    <a
+                      href={`/posts/${post?.id ?? post?.pubId}`}
+                      className="text-sm text-gray-500"
+                    >
+                      {dayjs(new Date(post?.createdAt)).fromNow()}
+                    </a>
+                  </Link>
+                  <PostActions post={post} />
+                </div>
+              </div>
             </>
           )}
         </div>

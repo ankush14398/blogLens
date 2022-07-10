@@ -21,6 +21,15 @@ export const MinimalProfileFields = gql`
         uri
       }
     }
+    stats {
+      totalFollowers
+      totalFollowing
+      totalPosts
+      totalComments
+      totalMirrors
+      totalPublications
+      totalCollects
+    }
     followModule {
       __typename
     }

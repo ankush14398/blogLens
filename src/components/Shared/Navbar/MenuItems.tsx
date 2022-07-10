@@ -7,24 +7,18 @@ import {
   ArrowCircleRightIcon,
   CogIcon,
   LogoutIcon,
-  MoonIcon,
-  ShieldCheckIcon,
-  ShieldExclamationIcon,
-  SunIcon,
   SwitchHorizontalIcon,
   UserIcon
 } from '@heroicons/react/outline'
 import { CheckCircleIcon } from '@heroicons/react/solid'
 import getAvatar from '@lib/getAvatar'
-import isBeta from '@lib/isBeta'
-import isStaff from '@lib/isStaff'
 import trackEvent from '@lib/trackEvent'
 import clsx from 'clsx'
 import Cookies from 'js-cookie'
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { FC, Fragment, useContext, useState } from 'react'
-import { CHAIN_ID, GIT_COMMIT_SHA } from 'src/constants'
+import { CHAIN_ID } from 'src/constants'
 import { useDisconnect, useNetwork } from 'wagmi'
 
 import Slug from '../Slug'
@@ -65,7 +59,7 @@ const MenuItems: FC = () => {
           <Menu.Button
             as="img"
             src={getAvatar(currentUser)}
-            className="w-8 h-8 rounded-full border cursor-pointer dark:border-gray-700/80"
+            className="w-8 h-8 rounded-full border-2 border-black cursor-pointer "
             alt={currentUser?.handle}
           />
           <Transition
@@ -80,7 +74,7 @@ const MenuItems: FC = () => {
           >
             <Menu.Items
               static
-              className="absolute right-0 py-1 mt-2 w-48 bg-white rounded-xl border shadow-sm dark:bg-gray-900 focus:outline-none dark:border-gray-700/80"
+              className="absolute right-0 py-1 mt-2 w-48 bg-white rounded-xl border-2 border-black shadow-sm dark:bg-gray-900 focus:outline-none dark:border-gray-700/80"
             >
               <Menu.Item
                 as={NextLink}
@@ -98,7 +92,7 @@ const MenuItems: FC = () => {
                   />
                 </div>
               </Menu.Item>
-              <div className="divider" />
+              <div className="border-b-2 border-black" />
               <Menu.Item
                 as={NextLink}
                 href={`/u/${currentUser?.handle}`}
@@ -181,74 +175,6 @@ const MenuItems: FC = () => {
                       </div>
                     ))}
                   </div>
-                </>
-              )}
-              <div className="divider" />
-              <Menu.Item
-                as="a"
-                onClick={() => {
-                  trackEvent(`${theme === 'light' ? 'dark' : 'light'} mode`)
-                  setTheme(theme === 'light' ? 'dark' : 'light')
-                }}
-                className={({ active }: { active: boolean }) =>
-                  clsx({ 'dropdown-active': active }, 'menu-item')
-                }
-              >
-                <div className="flex items-center space-x-1.5">
-                  {theme === 'light' ? (
-                    <>
-                      <MoonIcon className="w-4 h-4" />
-                      <div>Dark mode</div>
-                    </>
-                  ) : (
-                    <>
-                      <SunIcon className="w-4 h-4" />
-                      <div>Light mode</div>
-                    </>
-                  )}
-                </div>
-              </Menu.Item>
-              {currentUser && isBeta(currentUser) && GIT_COMMIT_SHA && (
-                <>
-                  <div className="divider" />
-                  <div className="py-3 px-6 text-xs">
-                    <a
-                      href={`https://gitlab.com/lenster/lenster/-/commit/${GIT_COMMIT_SHA}`}
-                      className="font-mono"
-                      title="Git commit SHA"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      fc4a59ea (beta)
-                    </a>
-                  </div>
-                </>
-              )}
-              {isStaff(currentUser?.id) && (
-                <>
-                  <div className="divider" />
-                  <Menu.Item
-                    as="div"
-                    onClick={toggleStaffMode}
-                    className={({ active }: { active: boolean }) =>
-                      clsx(
-                        { 'bg-yellow-100 dark:bg-yellow-800': active },
-                        'menu-item'
-                      )
-                    }
-                  >
-                    {staffMode ? (
-                      <div className="flex items-center space-x-1.5">
-                        <div>Disable staff mode</div>
-                        <ShieldExclamationIcon className="w-4 h-4 text-green-600" />
-                      </div>
-                    ) : (
-                      <div className="flex items-center space-x-1.5">
-                        <div>Enable staff mode</div>
-                        <ShieldCheckIcon className="w-4 h-4 text-red-500" />
-                      </div>
-                    )}
-                  </Menu.Item>
                 </>
               )}
             </Menu.Items>

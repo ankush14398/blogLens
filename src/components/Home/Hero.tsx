@@ -7,11 +7,11 @@ const Hero: FC = () => {
         <div className="flex items-stretch py-8 w-full text-center sm:py-12 sm:text-left">
           <div className="flex-1 flex-shrink-0 space-y-3">
             <div className="text-2xl font-extrabold text-black sm:text-4xl">
-              Welcome to BlogLens
+              Welcome to lensblog
             </div>
             <div className="leading-7 text-gray-700">
-              BlogLens is a decentralized, and permissionless social media app
-              built with Lens Protocol 🌿
+              lensblog is a decentralized, and permissionless blogging app built
+              with Lens Protocol 🌿
             </div>
           </div>
           <div className="hidden flex-1 flex-shrink-0 w-full sm:block" />

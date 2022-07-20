@@ -45,16 +45,7 @@ const PubIndexStatus: FC<Props> = ({ setShowModal, type, txHash }) => {
           postId: data?.publication?.id
         }
         console.log(body, data?.publication)
-        fetch('http://localhost:4783/api/publish', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
-        })
-          .then((res) => res.json())
-          .then(() => {
-            push(`/blog/${data?.publication?.id}`)
-            console.log('here')
-          })
+        push(`/blog/${data?.publication?.id}`)
       }
     }
   })

@@ -16,9 +16,10 @@ const CollectModule = dynamic(() => import('./CollectModule'), {
 
 interface Props {
   post: LensterPost
+  block?: boolean
 }
 
-const Collect: FC<Props> = ({ post }) => {
+const Collect: FC<Props> = ({ post, block = false }) => {
   const [count, setCount] = useState<number>(0)
   const [showCollectModal, setShowCollectModal] = useState<boolean>(false)
   const isFreeCollect =
@@ -32,17 +33,34 @@ const Collect: FC<Props> = ({ post }) => {
 
   return (
     <motion.button
+      className={block ? 'w-full' : ''}
       whileTap={{ scale: 0.9 }}
       onClick={() => setShowCollectModal(true)}
       aria-label="Collect"
     >
-      <div className="flex items-center space-x-1 text-red-500 hover:red-brand-400">
-        <div className="p-1.5 rounded-full hover:bg-red-300 hover:bg-opacity-20">
+      <div
+        className={`flex items-center space-x-1 ${
+          block ? 'text-white w-full' : ' text-brand-500'
+        }  hover:brand-brand-400`}
+      >
+        <div
+          className={`p-1.5 flex items-center justify-center hover:bg-brand-300 hover:bg-opacity-20 ${
+            block ? 'w-full bg-brand-500 rounded-lg' : 'rounded-full'
+          }`}
+        >
           <Tooltip placement="top" content="Collect" withDelay>
             <CollectionIcon className="w-[18px]" />
           </Tooltip>
+          {block && (
+            <>
+              &nbsp;
+              <span className="text-sm">Collect</span>
+            </>
+          )}
         </div>
-        {count > 0 && <div className="text-xs">{humanize(count)}</div>}
+        {!block && count > 0 && (
+          <div className="text-xs">{humanize(count)}</div>
+        )}
       </div>
       <Modal
         title={

@@ -1,17 +1,22 @@
 import { gql, useQuery } from '@apollo/client'
-import { GridItemEight, GridItemFour, GridLayout } from '@components/GridLayout'
+import { GridItemEight, GridItemFour } from '@components/GridLayout'
 import NFTShimmer from '@components/Shared/Shimmer/NFTShimmer'
 import PostsShimmer from '@components/Shared/Shimmer/PostsShimmer'
 import SEO from '@components/utils/SEO'
+import { LensterPost } from '@generated/lenstertypes'
+import { PaginatedResultInfo } from '@generated/types'
+import { CommentFields } from '@gql/CommentFields'
+import { MirrorFields } from '@gql/MirrorFields'
+import { PostFields } from '@gql/PostFields'
 import consoleLog from '@lib/consoleLog'
 import { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
+import { BLOGLENS } from 'src/constants'
 import Custom404 from 'src/pages/404'
 import Custom500 from 'src/pages/500'
 
-import Cover from './Cover'
 import Details from './Details'
 import FeedType from './FeedType'
 import ProfilePageShimmer from './Shimmer'
@@ -65,6 +70,30 @@ export const PROFILE_QUERY = gql`
     }
   }
 `
+const PROFILE_FEED_QUERY = gql`
+  query ProfileFeed($request: PublicationsQueryRequest!) {
+    publications(request: $request) {
+      items {
+        ... on Post {
+          ...PostFields
+        }
+        ... on Comment {
+          ...CommentFields
+        }
+        ... on Mirror {
+          ...MirrorFields
+        }
+      }
+      pageInfo {
+        totalCount
+        next
+      }
+    }
+  }
+  ${PostFields}
+  ${CommentFields}
+  ${MirrorFields}
+`
 
 const ViewProfile: NextPage = () => {
   const {
@@ -87,11 +116,42 @@ const ViewProfile: NextPage = () => {
     }
   })
 
+  const profile = data?.profile
+
+  const [publications, setPublications] = useState<LensterPost[]>([])
+  const [pageInfo, setPageInfo] = useState<PaginatedResultInfo>()
+  const [blogNo, setBlogNo] = useState<number>()
+
+  const {
+    data: feedData,
+    loading: feedLoading,
+    error: feedError,
+    fetchMore
+  } = useQuery(PROFILE_FEED_QUERY, {
+    variables: {
+      request: {
+        publicationTypes: feedType,
+        profileId: profile?.id,
+        limit: 10,
+        sources: [BLOGLENS]
+      }
+    },
+    skip: !profile?.id,
+    fetchPolicy: 'no-cache',
+    onCompleted(data) {
+      setPageInfo(data?.publications?.pageInfo)
+      setPublications(data?.publications?.items)
+      consoleLog(
+        'Query',
+        '#8b5cf6',
+        `Fetched first 10 profile publications Profile:${profile?.id}`
+      )
+    }
+  })
+
   if (error) return <Custom500 />
   if (loading || !data) return <ProfilePageShimmer />
   if (!data?.profile) return <Custom404 />
-
-  const profile = data?.profile
 
   return (
     <>
@@ -100,10 +160,10 @@ const ViewProfile: NextPage = () => {
       ) : (
         <SEO title={`@${profile?.handle} • Lenster`} />
       )}
-      <Cover cover={profile?.coverPicture?.original?.url} />
-      <GridLayout className="pt-6">
+      {/* <Cover cover={profile?.coverPicture?.original?.url} /> */}
+      <div className="w-full max-w-[600px] mx-auto pt-6">
         <GridItemFour>
-          <Details profile={profile} />
+          <Details blogNo={blogNo} profile={profile} />
         </GridItemFour>
         <GridItemEight className="space-y-5">
           <FeedType
@@ -114,11 +174,22 @@ const ViewProfile: NextPage = () => {
           {(feedType === 'POST' ||
             feedType === 'COMMENT' ||
             feedType === 'MIRROR') && (
-            <Feed profile={profile} type={feedType} />
+            <Feed
+              pageInfo={pageInfo}
+              publications={publications}
+              setPageInfo={setPageInfo}
+              setPublications={setPublications}
+              data={feedData}
+              error={feedError}
+              fetchMore={fetchMore}
+              loading={feedLoading}
+              profile={profile}
+              type={feedType}
+            />
           )}
           {feedType === 'NFT' && <NFTFeed profile={profile} />}
         </GridItemEight>
-      </GridLayout>
+      </div>
     </>
   )
 }

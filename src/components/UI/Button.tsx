@@ -40,7 +40,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
       ref={ref}
       className={clsx(
         {
-          'bg-brand-500 hover:bg-brand-600 border border-brand-600 text-white focus:ring-brand-400':
+          'bg-brand-500 hover:bg-brand-500 border border-brand-bg-brand-500 text-white focus:ring-brand-bg-brand-500':
             !outline && !light && variant === 'primary',
           'bg-gray-500 hover:bg-gray-600 border border-gray-600 text-white focus:ring-gray-400':
             !outline && !light && variant === 'secondary',
@@ -65,9 +65,9 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
           'border border-red-500 text-red-500 hover:bg-red-100 focus:ring-red-400':
             outline && !light && variant === 'danger',
           'border-none !shadow-none text-gray-500': light,
-          'px-2 py-0.5': size === 'sm',
-          'px-3 py-1': size === 'md',
-          'px-4 py-1.5': size === 'lg',
+          'px-4 py-0.5': size === 'sm',
+          'px-5 py-1': size === 'md',
+          'px-7 py-1.5': size === 'lg',
           'flex items-center space-x-1.5': icon && children
         },
         'rounded-lg font-bold disabled:opacity-50 shadow-sm focus:ring-2 focus:ring-opacity-50 focus:ring-offset-1 outline-none',

@@ -15,12 +15,15 @@ type ProcessedFiles = Array<[string, File]>
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   let status = 200,
     resultBody: {
-      url?: string
-      name?: string
-      size?: number
+      file?: { url?: string; name?: string; size?: number }
       status?: string
+      success?: string
       message?: string
-    } = { status: 'ok', message: 'Files were uploaded successfully' }
+    } = {
+      status: 'ok',
+      success: '1',
+      message: 'Files were uploaded successfully'
+    }
 
   /* Get files using formidable */
   const files = await new Promise<ProcessedFiles | undefined>(
@@ -62,9 +65,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     resultBody = {
       // ...resultBody,
-      url: `https://ipfs.infura.io/ipfs/${Hash}`,
-      name: file[1].originalFilename ?? undefined,
-      size: file[1].size
+      success: '1',
+      file: {
+        url: `https://ipfs.io/ipfs/${Hash}`,
+        name: file[1].originalFilename ?? undefined,
+        size: file[1].size
+      }
     }
     //   attachments.push({
     //     item: `https://ipfs.infura.io/ipfs/${Hash}`,

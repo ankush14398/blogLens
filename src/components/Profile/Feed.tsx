@@ -1,76 +1,41 @@
-import { gql, useQuery } from '@apollo/client'
+import { ApolloError } from '@apollo/client'
 import SinglePost from '@components/Post/SinglePost'
 import PostsShimmer from '@components/Shared/Shimmer/PostsShimmer'
-import { Card } from '@components/UI/Card'
 import { EmptyState } from '@components/UI/EmptyState'
 import { ErrorMessage } from '@components/UI/ErrorMessage'
 import { Spinner } from '@components/UI/Spinner'
 import { LensterPost } from '@generated/lenstertypes'
 import { PaginatedResultInfo, Profile } from '@generated/types'
-import { CommentFields } from '@gql/CommentFields'
-import { MirrorFields } from '@gql/MirrorFields'
-import { PostFields } from '@gql/PostFields'
 import { CollectionIcon } from '@heroicons/react/outline'
 import consoleLog from '@lib/consoleLog'
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { useInView } from 'react-cool-inview'
-import { BLOGLENS } from 'src/constants'
-
-const PROFILE_FEED_QUERY = gql`
-  query ProfileFeed($request: PublicationsQueryRequest!) {
-    publications(request: $request) {
-      items {
-        ... on Post {
-          ...PostFields
-        }
-        ... on Comment {
-          ...CommentFields
-        }
-        ... on Mirror {
-          ...MirrorFields
-        }
-      }
-      pageInfo {
-        totalCount
-        next
-      }
-    }
-  }
-  ${PostFields}
-  ${CommentFields}
-  ${MirrorFields}
-`
 
 interface Props {
   profile: Profile
   type: 'POST' | 'COMMENT' | 'MIRROR'
+  data: any
+  loading: boolean
+  error: undefined | ApolloError
+  fetchMore: Function
+  publications: LensterPost[]
+  setPublications: (arg: LensterPost[]) => void
+  pageInfo: PaginatedResultInfo | undefined
+  setPageInfo: (arg: PaginatedResultInfo | undefined) => void
 }
 
-const Feed: FC<Props> = ({ profile, type }) => {
-  const [publications, setPublications] = useState<LensterPost[]>([])
-  const [pageInfo, setPageInfo] = useState<PaginatedResultInfo>()
-  const { data, loading, error, fetchMore } = useQuery(PROFILE_FEED_QUERY, {
-    variables: {
-      request: {
-        publicationTypes: type,
-        profileId: profile?.id,
-        limit: 10,
-        sources: [BLOGLENS]
-      }
-    },
-    skip: !profile?.id,
-    fetchPolicy: 'no-cache',
-    onCompleted(data) {
-      setPageInfo(data?.publications?.pageInfo)
-      setPublications(data?.publications?.items)
-      consoleLog(
-        'Query',
-        '#8b5cf6',
-        `Fetched first 10 profile publications Profile:${profile?.id}`
-      )
-    }
-  })
-
+const Feed: FC<Props> = ({
+  profile,
+  type,
+  data,
+  loading,
+  error,
+  fetchMore,
+  publications,
+  setPublications,
+  pageInfo,
+  setPageInfo
+}) => {
   const { observe } = useInView({
     onEnter: () => {
       fetchMore({
@@ -111,11 +76,16 @@ const Feed: FC<Props> = ({ profile, type }) => {
       <ErrorMessage title="Failed to load profile feed" error={error} />
       {!error && !loading && data?.publications?.items?.length !== 0 && (
         <>
-          <Card className="divide-y-[1px] dark:divide-gray-700/80">
+          <div className="gap-2 grid grid-cols-1 w-full">
             {publications?.map((post: LensterPost, index: number) => (
-              <SinglePost key={`${post?.id}_${index}`} post={post} />
+              <div
+                key={`${post?.id}_${index}`}
+                className="border-2 border-black rounded-lg  bg-white	"
+              >
+                <SinglePost post={post} />
+              </div>
             ))}
-          </Card>
+          </div>
           {pageInfo?.next && publications.length !== pageInfo?.totalCount && (
             <span ref={observe} className="flex justify-center p-5">
               <Spinner size="sm" />

@@ -1,11 +1,12 @@
 import { gql, useQuery } from '@apollo/client'
+import Collect from '@components/Post/Actions/Collect'
 // @ts-ignore
 import Checklist from '@editorjs/checklist'
 // @ts-ignore
 import Code from '@editorjs/code'
 import Header from '@editorjs/header'
 // @ts-ignore
-import Image from '@editorjs/image'
+import EditorjsImage from '@editorjs/image'
 // @ts-ignore
 import Link from '@editorjs/link'
 // @ts-ignore
@@ -14,6 +15,7 @@ import List from '@editorjs/list'
 import Quote from '@editorjs/quote'
 // @ts-ignore
 import Table from '@editorjs/table'
+import { LensterPost } from '@generated/lenstertypes'
 import { PostFields } from '@gql/PostFields'
 import consoleLog from '@lib/consoleLog'
 import dynamic from 'next/dynamic'
@@ -84,8 +86,7 @@ const Blog = () => {
   useEffect(() => {
     fetchPost()
   }, [fetchPost])
-  console.log(blogCover)
-  console.log(data)
+  const post: LensterPost = data.publication
 
   return (
     <div className={'w-full mx-auto max-w-[640px] p-5'}>
@@ -100,8 +101,9 @@ const Blog = () => {
           alt={'cover'}
         />
       )}
+      <Collect post={post} block />
       {editorData && (
-        <>
+        <div className="content-style">
           <Editor
             holder="editorjs-container"
             data={editorData}
@@ -111,7 +113,7 @@ const Blog = () => {
               //  "quote":Quote,
               header: Header,
               quote: Quote,
-              image: Image,
+              image: EditorjsImage,
               list: List,
               code: Code,
               link: Link,
@@ -120,7 +122,7 @@ const Blog = () => {
             }}
           />
           <div id="editorjs-container"></div>
-        </>
+        </div>
       )}
     </div>
   )

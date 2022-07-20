@@ -9,7 +9,6 @@ import { useRouter } from 'next/router'
 import { FC, useContext } from 'react'
 
 import MenuItems from './MenuItems'
-import Search from './Search'
 
 const StaffBar = dynamic(() => import('./StaffBar'))
 const NewPostModal = dynamic(() => import('../../Post/NewPost/Modal'))
@@ -30,7 +29,7 @@ const Navbar: FC = () => {
         <a href={url} aria-current={current ? 'page' : undefined}>
           <Disclosure.Button
             className={clsx(
-              'w-full text-left px-2 md:px-3 py-1 rounded-md font-black cursor-pointer text-sm tracking-wide',
+              'w-full text-left px-2 md:px-3 py-1 rounded-md cursor-pointer text-sm tracking-wide',
               {
                 'text-black dark:text-white bg-gray-200 dark:bg-gray-800':
                   current,
@@ -88,7 +87,7 @@ const Navbar: FC = () => {
                 </Disclosure.Button>
                 <Link href="/" prefetch={false}>
                   <a href="/">
-                    <div className="text-xl flex items-center font-black">
+                    <div className="text-xl flex items-center font-bold">
                       🍀&nbsp;{' '}
                       {<span className="hidden sm:block">lensblog</span>}
                     </div>
@@ -96,14 +95,14 @@ const Navbar: FC = () => {
                 </Link>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex items-center space-x-4">
-                    <div className="hidden lg:block">
+                    {/* <div className="hidden lg:block">
                       <Search />
-                    </div>
+                    </div> */}
                     <NavItems />
                   </div>
                 </div>
               </div>
-              <div className="flex gap-8 items-center">
+              <div className="flex text-sm gap-8 items-center">
                 {currentUser && <NewPostModal />}
                 {currentUser && <Notification />}
                 <MenuItems />

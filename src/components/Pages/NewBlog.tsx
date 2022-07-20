@@ -14,6 +14,8 @@ import Checklist from '@editorjs/checklist'
 import Code from '@editorjs/code'
 import Header from '@editorjs/header'
 // @ts-ignore
+import Image from '@editorjs/image'
+// @ts-ignore
 import Link from '@editorjs/link'
 // @ts-ignore
 import List from '@editorjs/list'
@@ -40,6 +42,7 @@ import trackEvent from '@lib/trackEvent'
 import trimify from '@lib/trimify'
 import uploadAssetsToIPFS from '@lib/uploadAssetsToIPFS'
 import uploadToIPFS from '@lib/uploadToIPFS'
+import { BigNumber } from 'ethers'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { Dispatch, FC, useContext, useEffect, useRef, useState } from 'react'
@@ -56,6 +59,7 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import {
   useAccount,
+  useContractRead,
   useContractWrite,
   useNetwork,
   useSignTypedData
@@ -209,6 +213,22 @@ const NewBlog: FC<Props> = ({
       toast.error(error?.message)
     }
   })
+
+  const {
+    data: pubCount,
+    isError,
+    isLoading
+  } = useContractRead(
+    {
+      addressOrName: LENSHUB_PROXY,
+      contractInterface: LensHubProxy
+    },
+    'getPubCount',
+    {
+      args: currentUser?.id
+    }
+  )
+
   useEffect(() => {
     const { title } = router?.query
     if (typeof title === 'string') {
@@ -323,13 +343,20 @@ const NewBlog: FC<Props> = ({
       setIsUploading(true)
       // TODO: Add animated_url support
       const { path: postPath } = await uploadToIPFS(editorData)
+      // @ts-ignore
+      const pubCountinbigNum: BigNumber = pubCount
+
       const { path } = await uploadToIPFS({
         version: '1.0.0',
         metadata_id: uuidv4(),
         description: trimify(`${postContent} -
-        https://bloglens.vercel.app/blog/${postPath}`),
+        https://bloglens.vercel.app/blog/${currentUser?.id}-${pubCountinbigNum
+          ?.add(1)
+          .toHexString()}`),
         content: trimify(`${postContent} -
-        https://bloglens.vercel.app/blog/${postPath}`),
+        https://bloglens.vercel.app/blog/${currentUser?.id}-${pubCountinbigNum
+          ?.add(1)
+          .toHexString()}`),
         external_url: null,
         image: attachments.length > 0 ? attachments[0]?.item : null,
         imageMimeType: attachments.length > 0 ? attachments[0]?.type : null,
@@ -475,7 +502,7 @@ const NewBlog: FC<Props> = ({
                 </>
               )}
             </div>
-            <div className="">
+            <div className="content-style">
               <Editor
                 holder="editorjs-container"
                 placeholder="Your story here"
@@ -489,7 +516,15 @@ const NewBlog: FC<Props> = ({
                   //  "quote":Quote,
                   header: Header,
                   quote: Quote,
-                  // "image":SimpleImage,
+                  image: {
+                    class: Image,
+                    config: {
+                      endpoints: {
+                        byFile: 'http://localhost:4783/api/uploadFile' // Your backend file uploader endpoint
+                        // byUrl: 'http://localhost:8008/fetchUrl', // Your endpoint that provides uploading by Url
+                      }
+                    }
+                  },
                   list: List,
                   code: Code,
                   link: Link,

@@ -40,9 +40,10 @@ export const DOES_FOLLOW_QUERY = gql`
 
 interface Props {
   profile: Profile
+  blogNo: number | undefined
 }
 
-const Details: FC<Props> = ({ profile }) => {
+const Details: FC<Props> = ({ profile, blogNo }) => {
   const [followersCount, setFollowersCount] = useState<number>(0)
   const [following, setFollowing] = useState<boolean>(false)
   const { currentUser, staffMode } = useContext(AppContext)
@@ -102,15 +103,24 @@ const Details: FC<Props> = ({ profile }) => {
   const followType = profile?.followModule?.__typename
 
   return (
-    <div className="px-5 mb-4 space-y-5 sm:px-0">
-      <div className="relative w-32 h-32 sm:-mt-32 sm:w-52 sm:h-52">
-        <img
-          src={getAvatar(profile)}
-          className="w-32 h-32 bg-gray-200 rounded-xl ring-8 ring-gray-50 sm:w-52 sm:h-52 dark:bg-gray-700 dark:ring-black"
-          height={128}
-          width={128}
-          alt={profile?.handle}
-        />
+    <div className="px-5 w-full mb-4 mt-8 sm:px-0">
+      <div className="flex">
+        <div className="relative w-full h-32 sm:w-52 sm:h-52">
+          <img
+            src={getAvatar(profile)}
+            className="w-32 h-32 bg-gray-200 border-2 border-black rounded-xl ring-8 ring-gray-50 sm:w-52 sm:h-52 dark:bg-gray-700 dark:ring-black"
+            height={128}
+            width={128}
+            alt={profile?.handle}
+          />
+        </div>
+        <div className="flex ml-auto items-center justify-end">
+          <Followerings
+            blogNo={blogNo}
+            followersCount={followersCount}
+            profile={profile}
+          />
+        </div>
       </div>
       <div className="py-2 space-y-1">
         <div className="flex gap-1.5 items-center text-2xl font-bold">
@@ -145,7 +155,6 @@ const Details: FC<Props> = ({ profile }) => {
         </div>
       </div>
       <div className="space-y-5">
-        <Followerings followersCount={followersCount} profile={profile} />
         <div className="flex items-center space-x-2">
           {followLoading ? (
             <div className="w-28 rounded-lg h-[34px] shimmer" />

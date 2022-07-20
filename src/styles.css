@@ -2,14 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('fonts.css');
+/* @import url('fonts.css');
+ */
 
 html {
   @apply overflow-y-scroll;
 }
 
 body {
-  font-family: 'Lenster', Helvetica, Arial, sans-serif;
+  font-family:  'Inter var', Helvetica, Arial, sans-serif;
+  font-variation-settings: normal;
   @apply bg-gray-50;
   @apply dark:bg-black;
 }
@@ -69,7 +71,9 @@ body {
 .tippy-content {
   @apply !px-2.5 !py-0.5;
 }
-
+.content-style h2{
+  @apply font-bold text-2xl text-black
+}
 .label {
   @apply mb-1 font-medium text-gray-800 dark:text-gray-200;
 }

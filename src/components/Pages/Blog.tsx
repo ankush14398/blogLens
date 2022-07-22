@@ -1,5 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import Collect from '@components/Post/Actions/Collect'
+import PostsShimmer from '@components/Shared/Shimmer/PostsShimmer'
 // @ts-ignore
 import Checklist from '@editorjs/checklist'
 // @ts-ignore
@@ -21,6 +22,9 @@ import consoleLog from '@lib/consoleLog'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useState } from 'react'
+const Feed = dynamic(() => import('@components/Comment/Feed'), {
+  loading: () => <PostsShimmer />
+})
 const Editor = dynamic(() => import('@stfy/react-editor.js'), {
   ssr: false,
   loading: () => <div className="mb-1 w-5 h-5 rounded-lg shimmer" />
@@ -86,7 +90,7 @@ const Blog = () => {
   useEffect(() => {
     fetchPost()
   }, [fetchPost])
-  const post: LensterPost = data.publication
+  const post: LensterPost = data?.publication
 
   return (
     <div className={'w-full mx-auto max-w-[640px] p-5'}>
@@ -124,6 +128,14 @@ const Blog = () => {
           <div id="editorjs-container"></div>
         </div>
       )}
+      <Feed
+        post={post}
+        onlyFollowers={
+          post?.referenceModule?.__typename ===
+          'FollowOnlyReferenceModuleSettings'
+        }
+        // isFollowing={data?.doesFollow&&data?.doesFollow[0]?.follows}
+      />
     </div>
   )
 }

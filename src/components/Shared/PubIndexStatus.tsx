@@ -44,8 +44,8 @@ const PubIndexStatus: FC<Props> = ({ setShowModal, type, txHash }) => {
           profileId: currentUser?.id,
           postId: data?.publication?.id
         }
-        console.log(body, data?.publication)
-        push(`/blog/${data?.publication?.id}`)
+        if (data?.publications?.__typename === 'Post')
+          push(`/blog/${data?.publication?.id}`)
       }
     }
   })

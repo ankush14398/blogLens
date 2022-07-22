@@ -1,7 +1,6 @@
 import { gql, useQuery } from '@apollo/client'
 import SinglePost from '@components/Post/SinglePost'
 import PostsShimmer from '@components/Shared/Shimmer/PostsShimmer'
-import { Card } from '@components/UI/Card'
 import { EmptyState } from '@components/UI/EmptyState'
 import { ErrorMessage } from '@components/UI/ErrorMessage'
 import { Spinner } from '@components/UI/Spinner'
@@ -49,16 +48,16 @@ const Feed: FC<Props> = ({
   isFollowing = true
 }) => {
   const {
-    query: { id }
+    query: {}
   } = useRouter()
   const { currentUser } = useContext(AppContext)
   const [publications, setPublications] = useState<LensterPost[]>([])
   const [pageInfo, setPageInfo] = useState<PaginatedResultInfo>()
   const { data, loading, error, fetchMore } = useQuery(COMMENT_FEED_QUERY, {
     variables: {
-      request: { commentsOf: id, limit: 10 }
+      request: { commentsOf: post?.id, limit: 10 }
     },
-    skip: !id,
+    skip: !post?.id,
     fetchPolicy: 'no-cache',
     onCompleted(data) {
       setPageInfo(data?.publications?.pageInfo)
@@ -66,7 +65,7 @@ const Feed: FC<Props> = ({
       consoleLog(
         'Query',
         '#8b5cf6',
-        `Fetched first 10 comments of Publication:${id}`
+        `Fetched first 10 comments of Publication:${post?.id}`
       )
     }
   })
@@ -87,7 +86,7 @@ const Feed: FC<Props> = ({
         consoleLog(
           'Query',
           '#8b5cf6',
-          `Fetched next 10 comments of Publication:${id} Next:${pageInfo?.next}`
+          `Fetched next 10 comments of Publication:${post?.id} Next:${pageInfo?.next}`
         )
       })
     }
@@ -118,11 +117,17 @@ const Feed: FC<Props> = ({
       <ErrorMessage title="Failed to load comment feed" error={error} />
       {!error && !loading && data?.publications?.items?.length !== 0 && (
         <>
-          <Card className="divide-y-[1px] dark:divide-gray-700/80">
+          <div className=" gap-2 grid grid-cols-1 w-full">
             {publications?.map((post: LensterPost, index: number) => (
-              <SinglePost key={`${post?.id}_${index}`} post={post} hideType />
+              <div
+                key={`${post?.id}_${index}`}
+                className="border-2 border-black rounded-lg  bg-white	"
+              >
+                <SinglePost key={`${post?.id}_${index}`} post={post} hideType />
+              </div>
             ))}
-          </Card>
+          </div>
+
           {pageInfo?.next && publications.length !== pageInfo?.totalCount && (
             <span ref={observe} className="flex justify-center p-5">
               <Spinner size="sm" />

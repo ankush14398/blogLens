@@ -8,11 +8,16 @@ import { FC } from 'react'
 
 interface Props {
   post: LensterPost
+  block?: boolean
 }
 
-const Comment: FC<Props> = ({ post }) => {
+const Comment: FC<Props> = ({ post, block = false }) => {
   return (
-    <motion.button whileTap={{ scale: 0.9 }} aria-label="Comment">
+    <motion.button
+      className={block ? 'w-full' : ''}
+      whileTap={{ scale: 0.9 }}
+      aria-label="Comment"
+    >
       <Link href={`/posts/${post?.id ?? post?.pubId}`} prefetch={false}>
         <a
           href={`/posts/${post?.id ?? post?.pubId}`}

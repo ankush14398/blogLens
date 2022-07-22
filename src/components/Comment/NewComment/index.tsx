@@ -289,8 +289,8 @@ const NewComment: FC<Props> = ({ post, type }) => {
   }
 
   return (
-    <Card>
-      <div className="px-5 pt-5 pb-3">
+    <Card className="mb-2">
+      <div className=" px-5 pt-5 pb-3">
         <div className="space-y-1">
           {error && (
             <ErrorMessage

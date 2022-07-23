@@ -143,7 +143,7 @@ const DeleteSettings: FC = () => {
 
   return (
     <GridLayout>
-      <SEO title="Delete Profile • lensblog" />
+      <SEO title="Delete Profile • bloglens" />
       <GridItemFour>
         <Sidebar />
       </GridItemFour>

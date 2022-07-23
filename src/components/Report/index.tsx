@@ -98,7 +98,7 @@ const Report: FC = () => {
 
   return (
     <GridLayout>
-      <SEO title="Report • lensblog" />
+      <SEO title="Report • bloglens" />
       <GridItemFour>
         <SettingsHelper
           heading="Report publication"

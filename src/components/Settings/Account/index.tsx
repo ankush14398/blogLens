@@ -18,7 +18,7 @@ const AccountSettings: NextPage = () => {
 
   return (
     <GridLayout>
-      <SEO title="Account settings • lensblog" />
+      <SEO title="Account settings • bloglens" />
       <GridItemFour>
         <Sidebar />
       </GridItemFour>

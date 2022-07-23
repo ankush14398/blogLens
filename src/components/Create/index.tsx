@@ -15,7 +15,7 @@ const Create: NextPage = () => {
 
   return (
     <GridLayout>
-      <SEO title="Create Profile • lensblog" />
+      <SEO title="Create Profile • bloglens" />
       <GridItemFour>
         <SettingsHelper
           heading="Create profile"

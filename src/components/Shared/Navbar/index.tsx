@@ -88,8 +88,8 @@ const Navbar: FC = () => {
                 <Link href="/" prefetch={false}>
                   <a href="/">
                     <div className="text-xl flex items-center font-bold">
-                      🍀&nbsp;{' '}
-                      {<span className="hidden sm:block">lensblog</span>}
+                      <span className="text-4xl gradient-text">🍀&nbsp; </span>
+                      {<span className="hidden sm:block">bloglens</span>}
                     </div>
                   </a>
                 </Link>

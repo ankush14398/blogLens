@@ -36,7 +36,7 @@ const Contact: FC = () => {
 
   return (
     <GridLayout>
-      <SEO title="Contact • lensblog" />
+      <SEO title="Contact • bloglens" />
       <GridItemFour>
         <SettingsHelper
           heading="Contact Lenster"

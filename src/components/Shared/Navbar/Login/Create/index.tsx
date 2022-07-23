@@ -105,7 +105,7 @@ const Create: FC<Props> = ({ isModal = false }) => {
       {isModal && (
         <div className="mb-2 space-y-4">
           🍀&nbsp;
-          <div className="text-xl font-bold">Signup to Lensblog</div>
+          <div className="text-xl font-bold">Signup to bloglens</div>
         </div>
       )}
       <Input

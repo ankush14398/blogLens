@@ -10,10 +10,17 @@ html {
 }
 
 body {
-  font-family:  'Inter var', Helvetica, Arial, sans-serif;
+  font-family:  'DM Sans','Inter var', Helvetica, Arial, sans-serif;
   font-variation-settings: normal;
   @apply bg-gray-50;
   @apply dark:bg-black;
+}
+
+.gradient-text {
+  background:linear-gradient(126.87deg, #C8E991 0%, #26EE9F 52.57%, #0BB8DD 100%, rgba(217, 217, 217, 0) 100%);;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  -webkit-background-clip:text;
 }
 
 .shimmer {

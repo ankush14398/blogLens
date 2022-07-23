@@ -28,7 +28,7 @@ const Explore: NextPage = () => {
   return (
     <GridLayout>
       <SEO
-        title="Explore • lensblog"
+        title="Explore • bloglens"
         description="Explore top commented, collected and latest publications in the Lenster community."
       />
       <GridItemEight className="space-y-5">

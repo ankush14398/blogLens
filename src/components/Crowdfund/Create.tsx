@@ -279,7 +279,7 @@ const Create: NextPage = () => {
 
   return (
     <GridLayout>
-      <SEO title="Create Crowdfund • lensblog" />
+      <SEO title="Create Crowdfund • bloglens" />
       <GridItemFour>
         <SettingsHelper
           heading="Create crowdfund"

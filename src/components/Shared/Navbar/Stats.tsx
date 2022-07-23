@@ -58,7 +58,7 @@ const MenuItem: FC<Props> = ({ icon, title, isLenster = false }) => (
     className="py-1 px-4 m-2 text-sm text-gray-700 dark:text-gray-200"
   >
     <div className="flex items-center space-x-2">
-      <div className="flex items-center space-x-1">
+      <div className="flex gradient-text items-center space-x-1">
         {icon}
         {isLenster && <> 🍀&nbsp; </>}
       </div>

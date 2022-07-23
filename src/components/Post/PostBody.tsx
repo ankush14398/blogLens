@@ -21,8 +21,6 @@ interface Props {
 const PostBody: FC<Props> = ({ post }) => {
   const { pathname } = useRouter()
   const postType = post?.metadata?.attributes[0]?.value
-
-  console.log(post)
   return (
     <Link
       href={

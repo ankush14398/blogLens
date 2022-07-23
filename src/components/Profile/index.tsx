@@ -156,9 +156,9 @@ const ViewProfile: NextPage = () => {
   return (
     <>
       {profile?.name ? (
-        <SEO title={`${profile?.name} (@${profile?.handle}) • Lenster`} />
+        <SEO title={`${profile?.name} (@${profile?.handle}) • lensblog`} />
       ) : (
-        <SEO title={`@${profile?.handle} • Lenster`} />
+        <SEO title={`@${profile?.handle} • lensblog`} />
       )}
       {/* <Cover cover={profile?.coverPicture?.original?.url} /> */}
       <div className="w-full max-w-[600px] mx-auto pt-6">

@@ -55,7 +55,7 @@ const ViewCommunity: NextPage = () => {
 
   return (
     <GridLayout>
-      <SEO title={`${data?.publication?.metadata?.name} • Lenster`} />
+      <SEO title={`${data?.publication?.metadata?.name} • lensblog`} />
       <GridItemFour>
         <Details community={data.publication} />
       </GridItemFour>

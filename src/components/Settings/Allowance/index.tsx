@@ -70,7 +70,7 @@ const AllowanceSettings: NextPage = () => {
 
   return (
     <GridLayout>
-      <SEO title="Allowance settings • Lenster" />
+      <SEO title="Allowance settings • lensblog" />
       <GridItemFour>
         <Sidebar />
       </GridItemFour>

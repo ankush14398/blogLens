@@ -95,7 +95,7 @@ const ProfileSettings: NextPage = () => {
 
   return (
     <GridLayout>
-      <SEO title="Profile settings • Lenster" />
+      <SEO title="Profile settings • lensblog" />
       <GridItemFour>
         <Sidebar />
       </GridItemFour>

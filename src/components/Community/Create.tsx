@@ -224,7 +224,7 @@ const Create: NextPage = () => {
 
   return (
     <GridLayout>
-      <SEO title="Create Community • Lenster" />
+      <SEO title="Create Community • lensblog" />
       <GridItemFour>
         <SettingsHelper
           heading="Create community"

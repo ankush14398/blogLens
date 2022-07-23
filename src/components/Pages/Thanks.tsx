@@ -44,7 +44,7 @@ const Brand: FC<Props> = ({ name, logo, url, size, children }) => {
 const Thanks: FC = () => {
   return (
     <>
-      <SEO title="Thanks • Lenster" />
+      <SEO title="Thanks • lensblog" />
       <div className="flex justify-center items-center w-full h-48 bg-brand-400">
         <div className="relative text-center">
           <div className="flex items-center space-x-2 text-3xl font-semibold text-white md:text-4xl">

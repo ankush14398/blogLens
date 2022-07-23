@@ -6,7 +6,7 @@ import Link from 'next/link'
 export default function Custom500() {
   return (
     <div className="flex-col page-center">
-      <SEO title="500 • Lenster" />
+      <SEO title="500 • lensblog" />
       <div className="py-10 text-center">
         <h1 className="mb-4 text-3xl font-bold">
           Looks like something went wrong!

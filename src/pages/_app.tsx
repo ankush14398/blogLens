@@ -3,15 +3,8 @@ import '../styles.css'
 import { ApolloProvider } from '@apollo/client'
 import SiteLayout from '@components/SiteLayout'
 import { AppProps } from 'next/app'
-import Script from 'next/script'
 import { ThemeProvider } from 'next-themes'
-import {
-  ALCHEMY_KEY,
-  ALCHEMY_RPC,
-  CHAIN_ID,
-  IS_MAINNET,
-  IS_PRODUCTION
-} from 'src/constants'
+import { ALCHEMY_KEY, ALCHEMY_RPC, CHAIN_ID, IS_MAINNET } from 'src/constants'
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
@@ -55,14 +48,6 @@ const App = ({ Component, pageProps }: AppProps) => {
           </SiteLayout>
         </ThemeProvider>
       </ApolloProvider>
-      {IS_PRODUCTION && (
-        <Script
-          data-website-id="680b8704-0981-4cfd-8577-e5bdf5f77df8"
-          src="https://analytics.lenster.xyz/umami.js"
-          async
-          defer
-        />
-      )}
     </WagmiConfig>
   )
 }

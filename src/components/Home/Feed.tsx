@@ -89,7 +89,6 @@ const Feed: FC = () => {
   const router = useRouter()
 
   const [blogs, setBlogs] = useState([])
-
   useEffect(() => {
     if (currentUser?.id)
       fetch(`http://localhost:4783/api/posts?profileId=${currentUser?.id}`, {

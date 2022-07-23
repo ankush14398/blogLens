@@ -19,6 +19,8 @@ import Table from '@editorjs/table'
 import { LensterPost } from '@generated/lenstertypes'
 import { PostFields } from '@gql/PostFields'
 import consoleLog from '@lib/consoleLog'
+import getIPFSLink from '@lib/getIPFSLink'
+import imagekitURL from '@lib/imagekitURL'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -43,6 +45,24 @@ export const POST_QUERY = gql`
   }
   ${PostFields}
 `
+export const shimmer = (w: any, h: any) => `
+  <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+      <linearGradient id="g">
+        <stop stop-color="#333" offset="20%" />
+        <stop stop-color="#222" offset="50%" />
+        <stop stop-color="#333" offset="70%" />
+      </linearGradient>
+    </defs>
+    <rect width="${w}" height="${h}" fill="#333" />
+    <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+    <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
+  </svg>`
+
+export const toBase64 = (str: any) =>
+  typeof window === 'undefined'
+    ? Buffer.from(str).toString('base64')
+    : window.btoa(str)
 const Blog = () => {
   const [editorData, setEditorData] = useState<any>()
   const {
@@ -76,7 +96,12 @@ const Blog = () => {
       console.log(item)
       setBlogMetadata(item)
       setBlogTitle(title)
-      setBlogCover(data?.publication?.metadata?.media[0]?.original?.url)
+      setBlogCover(
+        imagekitURL(
+          getIPFSLink(data?.publication?.metadata?.media[0]?.original?.url),
+          'attachment'
+        )
+      )
     }
   }, [data])
 
@@ -99,14 +124,16 @@ const Blog = () => {
       </h1>
       {blogCover && (
         <img
-          className="object-contain max-h-[300px] mb-4 w-full bg-gray-100 rounded-lg border dark:bg-gray-800 dark:border-gray-700/80"
+          className="object-contain max-h-[300px] mb-4 w-full bg-gray-300 rounded-lg border dark:bg-gray-800 dark:border-gray-700/80"
           loading="lazy"
+          height={'300px'}
+          width={'640px'}
           src={blogCover}
           alt={'cover'}
         />
       )}
       <Collect post={post} block />
-      {editorData && (
+      {editorData ? (
         <div className="content-style">
           <Editor
             holder="editorjs-container"
@@ -126,6 +153,22 @@ const Blog = () => {
             }}
           />
           <div id="editorjs-container"></div>
+        </div>
+      ) : (
+        <div className="content-style my-5">
+          <div className="mb-1 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-1 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-1 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-1 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-1 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-4 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-0.5 w-full h-48 rounded-lg shimmer" />
+          <div className="mb-4 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-1 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-1 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-1 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-1 w-full h-5 rounded-lg shimmer" />
+          <div className="mb-4 w-full h-5 rounded-lg shimmer" />
         </div>
       )}
       <Feed

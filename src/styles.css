@@ -81,7 +81,9 @@ body {
 .mention-input {
   @apply pt-3 min-h-[4rem];
 }
-
+.mention-input__control{
+  @apply !text-4xl font-bold;
+}
 .mention-input textarea {
   @apply px-0 !text-4xl font-bold w-full border-0 dark:!bg-gray-800 disabled:bg-gray-500 disabled:bg-opacity-20 disabled:opacity-60 dark:border-gray-700/80 focus:border-transparent focus:ring-transparent;
 }

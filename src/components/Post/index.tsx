@@ -104,7 +104,7 @@ const ViewPost: NextPage = () => {
   return (
     <GridLayout>
       <SEO
-        title={`${post?.__typename} by @${post?.profile?.handle} • Lenster`}
+        title={`${post?.__typename} by @${post?.profile?.handle} • lensblog`}
       />
       <GridItemEight className="space-y-5">
         <Card>

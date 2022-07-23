@@ -29,6 +29,7 @@ import { IGif } from '@giphy/js-types'
 import { BROADCAST_MUTATION } from '@gql/BroadcastMutation'
 import { PencilAltIcon, PhotographIcon } from '@heroicons/react/outline'
 import consoleLog from '@lib/consoleLog'
+import getIPFSLink from '@lib/getIPFSLink'
 // import EditorJS from '@editorjs/editorjs';
 import {
   defaultFeeData,
@@ -36,6 +37,7 @@ import {
   FEE_DATA_TYPE,
   getModule
 } from '@lib/getModule'
+import imagekitURL from '@lib/imagekitURL'
 import omit from '@lib/omit'
 import splitSignature from '@lib/splitSignature'
 import trackEvent from '@lib/trackEvent'
@@ -436,13 +438,18 @@ const NewBlog: FC<Props> = ({
           <div>
             {attachments[0]?.item && (
               <img
-                className="object-contain max-h-[300px] w-full bg-gray-100 rounded-lg border dark:bg-gray-800 dark:border-gray-700/80"
+                className="object-contain max-h-[300px] w-full bg-gray-300 rounded-lg border dark:bg-gray-800 dark:border-gray-700/80"
                 loading="lazy"
-                src={attachments[0]?.item}
+                src={imagekitURL(
+                  getIPFSLink(attachments[0]?.item),
+                  'attachment'
+                )}
+                height={'300px'}
+                width={'640px'}
+                // blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(640, 300))}`}
                 alt={'cover'}
               />
             )}
-
             <div
               ref={drop}
               className={`w-full border-2 py-2 px-3 flex items-center rounded-lg ${
@@ -498,7 +505,7 @@ const NewBlog: FC<Props> = ({
               {coverState === 'loading' && (
                 <>
                   <Spinner size="sm" />
-                  <div>Loading.</div>
+                  <div>&nbsp;Loading.</div>
                 </>
               )}
             </div>

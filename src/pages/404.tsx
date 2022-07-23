@@ -7,7 +7,7 @@ import { STATIC_ASSETS } from 'src/constants'
 export default function Custom404() {
   return (
     <div className="flex-col page-center">
-      <SEO title="404 • Lenster" />
+      <SEO title="404 • lensblog" />
       <img
         src={`${STATIC_ASSETS}/gifs/nyan-cat.gif`}
         alt="Nyan Cat"

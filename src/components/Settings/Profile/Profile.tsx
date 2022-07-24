@@ -379,10 +379,7 @@ const Profile: FC<Props> = ({ profile }) => {
             </div>
           </div>
           <div className="pt-4 space-y-2">
-            <div className="flex items-center space-x-2 label">
-              <img className="w-5 h-5" src="/pride.svg" alt="Pride Logo" />
-              <span>Celebrate pride every day</span>
-            </div>
+            <div className="flex items-center space-x-2 label"></div>
             <div className="flex items-center space-x-2">
               <Toggle name="pride" on={pride} setOn={setPride} />
               <div>

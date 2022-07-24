@@ -4,6 +4,7 @@ import Mirror from '@components/Post/Actions/Mirror'
 import PostsShimmer from '@components/Shared/Shimmer/PostsShimmer'
 import UserProfile from '@components/Shared/UserProfile'
 import { Tooltip } from '@components/UI/Tooltip'
+import SEO from '@components/utils/SEO'
 // @ts-ignore
 import Checklist from '@editorjs/checklist'
 // @ts-ignore
@@ -125,6 +126,11 @@ const Blog = () => {
 
   return (
     <div className={'w-full mx-auto max-w-[640px] p-5'}>
+      <SEO
+        title={`${data?.publication?.metadata?.attributes[1]?.value ?? ''} by ${
+          post?.profile?.handle ?? ''
+        } • bloglens`}
+      />
       <h1 className="text-4xl font-bold mb-4">
         {data?.publication?.metadata?.attributes[1]?.value}
       </h1>
@@ -144,7 +150,7 @@ const Blog = () => {
         </div>
         <div className="flex flex-col items-end">
           <div className="text-sm text-gray-500">
-            {dayjs(new Date(post?.createdAt)).fromNow()}
+            {post?.createdAt && dayjs(new Date(post?.createdAt)).fromNow()}
           </div>
 
           <div className="flex w-fit">

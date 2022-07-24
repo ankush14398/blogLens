@@ -8,6 +8,7 @@ import { ErrorMessage } from '@components/UI/ErrorMessage'
 import { MentionTextArea } from '@components/UI/MentionTextArea'
 import { Spinner } from '@components/UI/Spinner'
 import AppContext from '@components/utils/AppContext'
+import SEO from '@components/utils/SEO'
 // @ts-ignore
 import Checklist from '@editorjs/checklist'
 // @ts-ignore
@@ -413,6 +414,8 @@ const NewBlog: FC<Props> = ({
 
   return (
     <div className={'w-full mx-auto max-w-[640px]'}>
+      <SEO title={`New Blog`} />
+
       <div className="px-5 pt-5 pb-3">
         <div className="space-y-1">
           {error && (

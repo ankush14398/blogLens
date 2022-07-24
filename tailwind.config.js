@@ -43,6 +43,9 @@ module.exports = {
             }
           }
         }
+      },
+      backgroundImage: {
+        branding: "url('/branding.png')"
       }
     }
   },

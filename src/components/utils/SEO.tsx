@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import React, { FC } from 'react'
-import { DESCRIPTION, STATIC_ASSETS, TITLE } from 'src/constants'
+import { DESCRIPTION, TITLE } from 'src/constants'
 
 interface Props {
   title?: string
@@ -19,16 +19,10 @@ const SEO: FC<Props> = ({ title = TITLE, description = DESCRIPTION }) => {
 
       <link rel="preconnect" href="https://ik.imagekit.io" />
       <link rel="dns-prefetch" href="https://ik.imagekit.io" />
-      <link rel="preconnect" href="https://assets.lenster.xyz" />
-      <link rel="dns-prefetch" href="https://assets.lenster.xyz" />
+      {/* <link rel="preconnect" href="https://assets.lenster.xyz" /> */}
+      {/* <link rel="dns-prefetch" href="https://assets.lenster.xyz" /> */}
       <link rel="preconnect" href="https://ipfs.infura.io" />
       <link rel="dns-prefetch" href="https://ipfs.infura.io" />
-
-      <link
-        rel="apple-touch-icon"
-        sizes="192x192"
-        href={`${STATIC_ASSETS}/images/icons/apple-touch-icon.png`}
-      />
       <link rel="manifest" href="/manifest.json" />
     </Head>
   )

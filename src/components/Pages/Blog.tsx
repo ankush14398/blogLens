@@ -1,6 +1,9 @@
 import { gql, useQuery } from '@apollo/client'
 import Collect from '@components/Post/Actions/Collect'
+import Mirror from '@components/Post/Actions/Mirror'
 import PostsShimmer from '@components/Shared/Shimmer/PostsShimmer'
+import UserProfile from '@components/Shared/UserProfile'
+import { Tooltip } from '@components/UI/Tooltip'
 // @ts-ignore
 import Checklist from '@editorjs/checklist'
 // @ts-ignore
@@ -18,12 +21,14 @@ import Quote from '@editorjs/quote'
 import Table from '@editorjs/table'
 import { LensterPost } from '@generated/lenstertypes'
 import { PostFields } from '@gql/PostFields'
+import { ChatAlt2Icon } from '@heroicons/react/outline'
 import consoleLog from '@lib/consoleLog'
 import getIPFSLink from '@lib/getIPFSLink'
 import imagekitURL from '@lib/imagekitURL'
+import dayjs from 'dayjs'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 const Feed = dynamic(() => import('@components/Comment/Feed'), {
   loading: () => <PostsShimmer />
 })
@@ -71,6 +76,7 @@ const Blog = () => {
   const [blogMetadata, setBlogMetadata] = useState<undefined | string>()
   const [blogTitle, setBlogTitle] = useState<undefined | string>()
   const [blogCover, setBlogCover] = useState<undefined | string>()
+  const bottom = useRef<any>(null)
 
   const { data, loading, error } = useQuery(POST_QUERY, {
     variables: {
@@ -132,7 +138,30 @@ const Blog = () => {
           alt={'cover'}
         />
       )}
-      <Collect post={post} block />
+      <div className="w-full flex justify-between">
+        <div>
+          <UserProfile profile={post?.profile} />
+        </div>
+        <div className="flex flex-col items-end">
+          <div className="text-sm text-gray-500">
+            {dayjs(new Date(post?.createdAt)).fromNow()}
+          </div>
+
+          <div className="flex w-fit">
+            <button
+              onClick={() => bottom?.current && bottom.current.scrollIntoView()}
+              className={`p-1.5 flex w-fit text-blue-500 items-center justify-center hover:bg-blue-300  ${'rounded-full'}`}
+            >
+              <Tooltip placement="top" content="Comment" withDelay>
+                <ChatAlt2Icon className="w-[18px]" />
+              </Tooltip>
+            </button>
+            <Mirror post={post} />
+
+            <Collect post={post} />
+          </div>
+        </div>
+      </div>
       {editorData ? (
         <div className="content-style">
           <Editor
@@ -171,6 +200,7 @@ const Blog = () => {
           <div className="mb-4 w-full h-5 rounded-lg shimmer" />
         </div>
       )}
+      <div ref={bottom} />
       <Feed
         post={post}
         onlyFollowers={

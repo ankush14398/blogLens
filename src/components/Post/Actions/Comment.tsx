@@ -21,12 +21,24 @@ const Comment: FC<Props> = ({ post, block = false }) => {
       <Link href={`/posts/${post?.id ?? post?.pubId}`} prefetch={false}>
         <a
           href={`/posts/${post?.id ?? post?.pubId}`}
-          className="flex items-center space-x-1 text-blue-500 hover:text-blue-400"
+          className={`flex items-center space-x-1 ${
+            block ? 'text-white w-full' : ' text-blue-500'
+          }  `}
         >
-          <div className="p-1.5 rounded-full hover:bg-blue-300 hover:bg-opacity-20">
+          <div
+            className={`p-1.5 flex items-center justify-center hover:bg-blue-300  ${
+              block ? 'w-full bg-blue-500 rounded-lg' : 'rounded-full'
+            }`}
+          >
             <Tooltip placement="top" content="Comment" withDelay>
               <ChatAlt2Icon className="w-[18px]" />
             </Tooltip>
+            {block && (
+              <>
+                &nbsp;
+                <span className="text-sm">Comment</span>
+              </>
+            )}
           </div>
           {post?.stats?.totalAmountOfComments > 0 && (
             <div className="text-xs">

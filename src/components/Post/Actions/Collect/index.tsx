@@ -41,10 +41,10 @@ const Collect: FC<Props> = ({ post, block = false }) => {
       <div
         className={`flex items-center space-x-1 ${
           block ? 'text-white w-full' : ' text-brand-500'
-        }  hover:brand-brand-400`}
+        }  `}
       >
         <div
-          className={`p-1.5 flex items-center justify-center hover:bg-brand-300 hover:bg-opacity-20 ${
+          className={`p-1.5 flex items-center justify-center hover:bg-brand-300  ${
             block ? 'w-full bg-brand-500 rounded-lg' : 'rounded-full'
           }`}
         >

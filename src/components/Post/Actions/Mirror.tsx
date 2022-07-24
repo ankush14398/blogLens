@@ -65,9 +65,10 @@ const CREATE_MIRROR_TYPED_DATA_MUTATION = gql`
 
 interface Props {
   post: LensterPost
+  block?: boolean
 }
 
-const Mirror: FC<Props> = ({ post }) => {
+const Mirror: FC<Props> = ({ post, block = false }) => {
   const [count, setCount] = useState<number>(0)
   const { currentUser } = useContext(AppContext)
   const { activeChain } = useNetwork()
@@ -208,17 +209,34 @@ const Mirror: FC<Props> = ({ post }) => {
       disabled={typedDataLoading || writeLoading}
       aria-label="Mirror"
     >
-      <div className="flex items-center space-x-1 text-brand">
-        <div className="p-1.5 rounded-full hover:bg-opacity-20 hover:bg-brand-300">
+      <div
+        className={`flex items-center space-x-1 ${
+          block ? 'text-white w-full' : ' text-violet-500'
+        }  `}
+      >
+        <div
+          className={`p-1.5 flex items-center justify-center hover:bg-violet-300  ${
+            block ? 'w-full bg-violet-500 rounded-lg' : 'rounded-lg'
+          }`}
+        >
+          {' '}
           {typedDataLoading ||
           signLoading ||
           writeLoading ||
           broadcastLoading ? (
             <Spinner size="xs" />
           ) : (
-            <Tooltip placement="top" content="Mirror" withDelay>
-              <SwitchHorizontalIcon className="w-[18px]" />
-            </Tooltip>
+            <>
+              <Tooltip placement="top" content="Mirror" withDelay>
+                <SwitchHorizontalIcon className="w-[18px]" />
+              </Tooltip>
+              {block && (
+                <>
+                  &nbsp;
+                  <span className="text-sm">Mirror</span>
+                </>
+              )}
+            </>
           )}
         </div>
         {count > 0 && <div className="text-xs">{humanize(count)}</div>}

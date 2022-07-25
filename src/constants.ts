@@ -7,7 +7,7 @@ export const IS_MAINNET = process.env.NEXT_PUBLIC_IS_MAINNET === 'true'
 
 export const TITLE = 'bloglens'
 export const DESCRIPTION =
-  'bloglens is a decentralized, and permissionless blogging app built with Lens Protocol  🌿'
+  'bloglens is a decentralized, and permissionless blogging app built with Lens Protocol 🌿. Where user own their blogs.'
 export const DEFAULT_OG = 'https://assets.lenster.xyz/images/og/logo.jpeg'
 
 // Git

@@ -114,7 +114,7 @@ const Blog = () => {
 
   const fetchPost = useCallback(async () => {
     if (typeof blogMetadata === 'string') {
-      fetch(`https://ipfs.io/ipfs/${blogMetadata}`)
+      fetch(`https://ipfs.infura.io/ipfs/${blogMetadata}`)
         .then((res) => res.json())
         .then((res) => setEditorData(res))
     }

@@ -1,1 +1,1 @@
-bloglens
+This is bloglens where you can customize blog as per requirement.

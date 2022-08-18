@@ -1,1 +1,1 @@
-This is bloglens where you can customize blog as per requirement.
+This is bloglens where you can customize blog as per requirement. Welcome to bloglens.
